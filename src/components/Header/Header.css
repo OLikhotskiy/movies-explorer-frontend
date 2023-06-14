@@ -9,7 +9,6 @@
 .header__notauthorized {
     display: flex;
     gap: 30px;
-    margin-right: 70px;
 }
   
 .header__signup {
@@ -34,12 +33,6 @@
     text-decoration: none;
 }
 
-@media screen and (max-width: 768px) {
-    .header__notauthorized {
-        margin-right: 30px;
-    }
-}
-
 @media screen and (max-width: 320px) {
     .header__signup {
         font-size: 10px;
@@ -58,6 +51,5 @@
 
     .header__notauthorized {
         gap: 14px;
-        margin-right: 14px;
     }
 }

@@ -8,8 +8,8 @@ function Header() {
     <header className="header">
       <Logo />
       <div className="header__notauthorized">
-          <button className="header__signup"><Link to="/signup">Регистрация</Link></button>
-          <button className="header__signin"><Link to="/signin">Войти</Link></button>
+          <button className="header__signup buttons"><Link to="/signup">Регистрация</Link></button>
+          <button className="header__signin buttons"><Link to="/signin">Войти</Link></button>
         </div>
     </header>
   )
