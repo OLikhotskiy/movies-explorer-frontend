@@ -1,5 +1,5 @@
 import './App.css'
-//import Main from '../Main/Main'
+import Main from '../Main/Main'
 //import Movies from '../Movies/Movies'
 //import Profile from '../Profile/Profile'
 import { Route, Routes } from 'react-router-dom'
@@ -15,7 +15,7 @@ function App() {
       <div className="page">
         <Routes>
           <Route path="/" element={<Layout />}>
-            
+            <Route index element={<Main />} />  
           </Route>
           
         </Routes>
