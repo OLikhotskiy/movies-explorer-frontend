@@ -5,9 +5,10 @@ import Main from '../Main/Main'
 import { Route, Routes } from 'react-router-dom'
 //import SavedMovies from '../SavedMovies/SavedMovies'
 import Layout from '../Layout/Layout'
-//import NotFound from '../NotFound/NotFound'//
-//import Login from '../Login/Login'
-//import Register from '../Register/Register'
+import NotFound from '../NotFound/NotFound'
+import Register from '../Register/Register'
+import Login from '../Login/Login'
+
 
 function App() {
   return (
@@ -17,7 +18,9 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<Main />} />  
           </Route>
-          
+          <Route path="/signup" element={<Register />} />
+          <Route path="/signin" element={<Login />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     </div>
