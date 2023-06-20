@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Menu.css";
 import menu from '../../images/menu.svg';
@@ -9,20 +9,34 @@ function Menu() {
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    function openMenu() {
+    const openMenu = () => {
         setIsMenuOpen(true);
     }
 
-    function closeMenu() {
+    const closeMenu = () => {
         setIsMenuOpen(false);
     }
+
+    useEffect(() => {
+        function handleEscClose(e) {
+          if (e.code === 'Escape') {
+            setIsMenuOpen(false)
+            }
+        }
+    
+        if (isMenuOpen) {
+          document.addEventListener('keydown', handleEscClose)
+        }
+        return () => document.removeEventListener('keydown', handleEscClose)
+    })
+    
 
     return (
         <section className="menu">
             {isMenuOpen ? <div className="menu__overlay" onClick={close}></div> : "" }
-            {isMenuOpen ?   <img className="menu__image buttons" src={close} alt="Закрыть" onClick={closeMenu} /> 
+            {isMenuOpen ? <img className="menu__image buttons" src={close} alt="Закрыть" onClick={closeMenu}/> 
                             : 
-                            <img className="menu__image buttons" src={menu} alt="Меню" onClick={openMenu} />
+                            <img className="menu__image buttons" src={menu} alt="Меню" onClick={ openMenu }/>
             }
             <nav className={isMenuOpen ? ["menu__list", "menu__list_active"].join(' ') : ["menu__list"]}>
                 <ul className="menu__container">
