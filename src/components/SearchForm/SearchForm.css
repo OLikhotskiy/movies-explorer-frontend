@@ -1,0 +1,138 @@
+.search {
+    max-width: 100%;
+    padding-top: 70px;
+    padding-bottom: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-style: normal;
+    font-weight: 400;
+    border-bottom: solid 1px #424242;
+}
+
+.search__form {
+    width: 100%;
+    height: 72px;
+    background-color: #2F2F2F;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-radius: 9px;
+}
+
+
+.search__container {
+    width: 913px;
+    height: 40px;
+    padding-right: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-right: solid 1px #424242;
+    box-sizing: border-box;
+}
+
+.search__input {
+    width: 100%;
+    justify-self: flex-start;
+    padding-left: 63px;
+    background-image: url('../../images/search.svg');
+    background-position: 19px center;
+    background-repeat: no-repeat;
+    font-size: 18px;
+    line-height: 20px;
+    background-color: #2F2F2F;
+    border: none;
+    color: white;
+}
+.search__input:focus {
+    outline: 1px solid #2F2F2F;
+}
+
+.search__button {
+    display: block;
+    background-image: url('../../images/searcharrow.svg');
+    padding: 0;
+    width: 80px;
+    height: 34px;
+    border: none;
+    background-position: right;
+    background-repeat: no-repeat;
+}
+
+.search__toggle {
+    padding-left: 29px;
+    padding-right: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+}
+
+.search__description {
+    font-size: 13px;
+    line-height: 18px;
+}
+
+
+@media screen and (max-width: 768px) {
+    .search {
+        padding-top: 80px;
+        padding-bottom: 108px;
+    }
+           
+    .search__container {
+        width: 500px;
+        padding-right: 19px;
+    }
+    
+    
+    
+    
+    .search__toggle {
+        padding-left: 19px;
+        padding-right: 20px;
+        gap: 15px;
+    }  
+}
+
+@media screen and (max-width: 568px) {
+    .search__form {
+        flex-direction: column;
+        background-color: transparent;
+    }
+
+    .search__container {
+        width: 300px;
+        height: 72px;
+        background-color: #2F2F2F;
+        border: none;
+        padding: 0;
+        border-radius: 9px;
+    }
+
+    .search__input {
+        height: 72px;
+        border-radius: 9px;
+        padding: 0;
+        padding-left: 19px;
+        background-image: none;
+        font-size: 14px;
+        line-height: 20px;
+        background-color: #2F2F2F;
+
+    }
+
+    .search__button {
+        margin-right: 19px;
+        padding: 0;
+    }
+
+    .search__toggle {
+        padding: 0;
+        margin: 45px auto;
+        gap: 13px;
+    }
+}
