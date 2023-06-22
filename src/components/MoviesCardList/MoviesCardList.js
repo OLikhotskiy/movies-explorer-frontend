@@ -24,7 +24,7 @@ function MoviesCardList() {
             <MoviesCard />
             <MoviesCard />
           </ul>
-          <button type="button" aria-label="Ещё" className="cards__more buttons"></button>
+          <button type="button" aria-label="Ещё" className="cards__more buttons">Ещё</button>
         </section>
       )
       }

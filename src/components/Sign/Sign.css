@@ -8,7 +8,8 @@
 
 .sign__container {
     width: 396px;
-    margin-left: 372px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .sign__title {
@@ -144,10 +145,6 @@
  @media screen and (max-width: 854px) {
     .sign {
       margin-top: 240px;
-    }
-
-    .sign__container {
-        margin-left: 186px;
     }
 
     .sign__question {

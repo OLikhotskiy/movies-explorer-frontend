@@ -31,13 +31,13 @@
     grid-template-columns: 1fr 4fr;
 }
   
-.about-project__terms_sector {
+.about-project__terms-sector {
     display: flex;
     flex-direction: column;
     text-align: center;
 }
   
-.about-project__terms_term {
+.about-project__terms-term {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -48,12 +48,12 @@
     line-height: 17px;
 }
   
-.about-project__terms_1week {
+.about-project__terms-1week {
     color: black;
     background-color: #3ddc84;
 }
   
-.about-project__terms_description {
+.about-project__terms-description {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -103,12 +103,12 @@
       margin-bottom: 66px;
     }
     
-    .about-project__terms_term {
+    .about-project__terms-term {
       font-size: 11px;
       line-height: 13px;
     }
     
-    .about-project__terms_description {
+    .about-project__terms-description {
       height: 30px;
       font-size: 11px;
     }

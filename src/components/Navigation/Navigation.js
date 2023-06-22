@@ -7,10 +7,10 @@ function Navigation() {
     return (
         <section className="navigation">
             <Routes>
-                <Route path="/sign-in" element={
-                    <Link to="/sign-up" className="navigation__registration buttons">Регистрация</Link>} />
-                <Route path="/sign-up" element={
-                    <Link to="/sign-in" className="navigation__login buttons">Войти</Link>} />
+                <Route path="/signin" element={
+                    <Link to="/signup" className="navigation__registration buttons">Регистрация</Link>} />
+                <Route path="/signup" element={
+                    <Link to="/signin" className="navigation__login buttons">Войти</Link>} />
                 <Route path="/" element={
                     <nav className="navigation__container">
                         <ul className="navigation__links">

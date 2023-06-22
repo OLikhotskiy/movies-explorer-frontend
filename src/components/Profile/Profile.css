@@ -78,17 +78,20 @@
     font-weight: 400;
 }
 
-.profile__button_edit {
+.profile__button-edit {
     color: #fff;
 }
+.profile__button-edit-disabled {
+    color: red;
+}
 
-.profile__button_logout {
+.profile__button-logout {
     margin-top: 16px;
     font-weight: 500;
     color: #EE3465;
 }
 
-.profile-input__error {
+.profile__input-error {
     display: flex;
     align-items: center;
     height: 20px;
@@ -99,6 +102,8 @@
     line-height: 12px;
     color: #ee3465;
 }
+
+
 
 @media screen and (max-width: 768px) {
     .profile {

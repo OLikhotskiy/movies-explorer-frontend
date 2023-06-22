@@ -2,6 +2,16 @@
     display: none;
     font-style: normal;
 }
+.menu__profile {
+    height: 32px;
+    width: 100px;
+    border-radius: 20px;
+    display: flex;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 114%;
+    background-color: #313131;
+}
 
 @media screen and (max-width: 768px) {
     .menu {
@@ -59,8 +69,14 @@
         right: 30px;
         
     }
+    .menu__profile {
+        margin-bottom: 90px;
+     }
  
-
+     .menu__link_active {
+        padding-bottom: 4px;
+        border-bottom: 2px solid #FFFFFF;
+     }
 }
 
 @media screen and (max-width: 568px) {
@@ -79,5 +95,10 @@
         gap: 17px;
         
     }
-
+    .menu__profile {
+        margin-bottom: 46px;
+     }
+    .menu__link_active {
+     padding-bottom: 7px;
+    }
 }

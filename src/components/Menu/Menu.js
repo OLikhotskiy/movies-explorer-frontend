@@ -40,17 +40,17 @@ function Menu() {
             }
             <nav className={isMenuOpen ? ["menu__list", "menu__list_active"].join(' ') : ["menu__list"]}>
                 <ul className="menu__container">
-                    <li className={`navigation__link buttons ${window.location.pathname === "/" ? 'navigation__active_menu' : ' '}`}>
+                    <li className={`menu__link buttons ${window.location.pathname === "/" ? 'menu__link_active' : ' '}`}>
                         <Link to="/">Главная</Link>
                     </li>
-                    <li className={`navigation__link buttons ${window.location.pathname === "/movies" ? 'navigation__active_menu' : ' '}`}>
+                    <li className={`menu__link buttons ${window.location.pathname === "/movies" ? 'menu__link_active' : ' '}`}>
                         <Link to="/movies">Фильмы</Link>
                     </li>
-                    <li className={`navigation__link buttons ${window.location.pathname === "/saved-movies" ? 'navigation__active_menu' : ' '}`}>
+                    <li className={`menu__link buttons ${window.location.pathname === "/saved-movies" ? 'menu__link_active' : ' '}`}>
                         <Link to="/saved-movies">Сохраненные фильмы</Link>
                     </li>
                 </ul>
-                <Link to="/profile" className="navigation__profile buttons">Аккаунт</Link>
+                <Link to="/profile" className="menu__profile buttons">Аккаунт</Link>
             </nav>
         </section>
     )

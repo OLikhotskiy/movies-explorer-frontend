@@ -43,7 +43,7 @@ const onExitClick = (e) => {
                             />
                             
                         </label>
-                        <span className="profile-input__error">{errors.name || ''}</span>
+                        <span className="profile__input-error">{errors.name || ''}</span>
                         <label className='profile__fields'>
                             <span className='profile__input-email'>E-mail</span>
                             <input 
@@ -58,11 +58,11 @@ const onExitClick = (e) => {
                                 required 
                             />
                         </label>
-                        <span className="profile-input__error">{errors.email || ''}</span>
+                        <span className="profile__input-error">{errors.email || ''}</span>
                     </fieldset>
                     <div className='profile__buttons'>
-                        <button className={`profile__button_edit buttons ${!isValid && 'profile__save-button_disabled'}`} type='submit' onClick={handleEditClick}>Редактировать</button>
-                        <button className={`profile__button_logout buttons`} onClick={onExitClick}>Выйти из аккаунта</button>
+                        <button className={`profile__button-edit buttons ${!isValid && 'profile__button-edit-disabled'}`} type='submit' onClick={handleEditClick}>Редактировать</button>
+                        <button className={`profile__button-logout buttons`} onClick={onExitClick}>Выйти из аккаунта</button>
                         
                     </div>
                 </form>

@@ -10,7 +10,7 @@ function Login() {
 
   const onSubmit = (e) => {
     e.preventDefault()
-    if (values.email === 'test@test.test' && values.password === 'test@test.test') {
+    if (values.email === 'admun@admin' && values.password === 'admun@admin') {
         localStorage.setItem('loggedIn', 'yes')
         navigate('/')
     } else {

@@ -30,14 +30,14 @@
     margin-bottom: 30px;
   }
   
-  .promo__nav_links {
+  .promo__nav-links {
     width: 96px;
     height: 36px;
     border-radius: 10px;
     background-color: #303030;
   }
   
-  .promo__nav_link {
+  .promo__nav-link {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -80,13 +80,13 @@
         gap: 6px;
     }
 
-    .promo__nav_links {
+    .promo__nav-links {
       width: 82px;
       height: 26px;
       border-radius: 6px;
     }
     
-    .promo__nav_link {
+    .promo__nav-link {
       font-size: 10px;
       line-height: 160%;
     }

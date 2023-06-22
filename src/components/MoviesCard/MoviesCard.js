@@ -15,13 +15,13 @@ function MoviesCard() {
     }
 
     return (
-      <div className="movies-card">
+      <li className="movies-card">
         <div className="movies-card__info">
           <div className="movies-card__info-box">
             <h6 className="movies-card__title">33 слова о дизайне</h6>
             <span className="movies-card__time">1ч 47м</span>
           </div>
-          <div className="movie-cards__like-container">
+          <div className="movies-card__like-container">
             {useLocation().pathname === "/movies" &&
                 <button className={`movies-card__like buttons ${isLiked && 'movies-card__like_active'}`}
                     type="button"    
@@ -41,8 +41,8 @@ function MoviesCard() {
           </div>
         </div>
         <div className="movies-card__picture"></div>
-      </div>
+      </li>
     )
   }
   
-  export default MoviesCard
+export default MoviesCard
