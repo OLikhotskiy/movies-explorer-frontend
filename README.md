@@ -1,1 +1,7 @@
 # movies-explorer-frontend
+
+Frontend-часть дипломного проекта.
+
+Ссылка на макет: https://disk.yandex.ru/d/uLnRgG0tOFGhcA
+
+Репозиторий: https://github.com/OLikhotskiy/movies-explorer-frontend

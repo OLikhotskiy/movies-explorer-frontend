@@ -1,0 +1,15 @@
+.main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main__title{
+    margin-top: 0;
+    margin-bottom: 0;
+    border-bottom: 1px solid #DADADA;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 70px;
+    letter-spacing: -0.04em;
+}

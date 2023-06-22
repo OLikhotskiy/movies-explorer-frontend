@@ -1,0 +1,116 @@
+.about-project {
+    margin-top: 89px;
+}
+  
+.about-project__container {
+    margin-top: 70px;
+    margin-bottom: 112px;
+    display: grid;
+    gap: 40px;
+    grid-template-columns: 1fr 1fr;
+}
+  
+.about-project__title {
+    margin-top: 0;
+    margin-bottom: 24px;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: -0.04em;
+}
+  
+.about-project__subtitle {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+}
+  
+.about-project__terms {
+    margin-bottom: 110px;
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+}
+  
+.about-project__terms-sector {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+  
+.about-project__terms-term {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    background-color: #303030;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+}
+  
+.about-project__terms-1week {
+    color: black;
+    background-color: #3ddc84;
+}
+  
+.about-project__terms-description {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 45px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 121%;
+    color: #8B8B8B;
+}
+
+@media screen and (max-width: 768px) {
+    .about-project {
+      margin-top: 70px;
+    }
+    
+    .about-project__container {
+        margin-bottom: 92px;
+        gap: 30px;
+      }
+}
+  
+@media screen and (max-width: 530px) {
+    .about-project {
+      margin-top: 50px;
+    }
+    
+    .about-project__container {
+      margin-top: 60px;
+      margin-bottom: 58px;
+      grid-template-columns: 1fr;
+      gap: 58px;
+    }
+    
+    .about-project__title {
+      margin-bottom: 16px;
+      font-size: 18px;
+      line-height: 22px;
+    }
+    
+    .about-project__subtitle {
+      font-size: 11px;
+      line-height: 145%;
+    }
+    
+    .about-project__terms {
+      grid-template-columns: 100px auto;
+      margin-bottom: 66px;
+    }
+    
+    .about-project__terms-term {
+      font-size: 11px;
+      line-height: 13px;
+    }
+    
+    .about-project__terms-description {
+      height: 30px;
+      font-size: 11px;
+    }
+   
+  }
