@@ -15,7 +15,7 @@ function Sign
                 {children}
                 {isSignError &&
                 <span className="sign__inputError">Неверный логин или пароль</span>}
-                <button className={`sign__button buttons ${!isValid && 'sign__button_disabled'} `} type="submit">
+                <button className="sign__button buttons"  type="submit">
                     {buttonText}
                 </button>
                 <span className="sign__question">{questionText}

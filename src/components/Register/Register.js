@@ -1,16 +1,31 @@
 import Sign from '../Sign/Sign'
 import { useValidation } from '../../hooks/useValidation'
-import { useNavigate } from 'react-router-dom'
+import { useState } from "react";
 
-function Register() {
+function Register(props) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  
+  function handleName(event) {
+    setName(event.target.value);
+    
+  }
 
-const navigate = useNavigate()
+  function handleEmail(event) {
+    setEmail(event.target.value);
+  }
 
-const { values, onChange, errors, isFormValid } = useValidation()
+  function handlePassword(evt) {
+    setPassword(evt.target.value);
+  }
+  
+  
+  const { values, onChange, errors, isFormValid } = useValidation()//починить валидацию
 
-  const onSubmit = (e) => {
-    e.preventDefault()
-    navigate('/signin')
+  function onSubmit(evt) {
+    evt.preventDefault()
+    props.onRegister(name, email, password)
   }
 
   return (
@@ -25,18 +40,35 @@ const { values, onChange, errors, isFormValid } = useValidation()
     >
       <fieldset className="sign__inputs">
         <div className="sign__input-container">Имя
-          <input className={`sign__input ${errors.name && 'sign__input_error'}`} onChange={onChange} value={values.name || ''}
-            type="text" name="name" minLength="2" maxLength="30" required/>
+          <input className={`sign__input ${errors.name && 'sign__input_error'}`} 
+            onChange={handleName} 
+            value={name}
+            type="text" 
+            name="name" 
+            minLength="2" 
+            maxLength="30" 
+            required
+          />
           <span className="sign__error">{errors.name || ''}</span>
         </div>
         <div className="sign__input-container">E-mail
-          <input className={`sign__input ${errors.email && 'sign__input_error'}`} onChange={onChange} value={values.email || ''}
-            type="email" name="email" minLength="2" maxLength="30" required/>
+          <input className={`sign__input ${errors.email && 'sign__input_error'}`} 
+            onChange={handleEmail}
+            value={email}
+            type="email" 
+            name="email" 
+            required
+          />
           <span className="sign__error">{errors.email || ''}</span>
         </div>
         <div className="sign__input-container">Пароль
-          <input className={`sign__input ${errors.password && 'sign__input_error'}`} onChange={onChange} value={values.password || ''}
-          type="password" name="password" minLength="6" maxLength="30" required/>
+          <input className={`sign__input ${errors.password && 'sign__input_error'}`} 
+            onChange={handlePassword}
+            value={password}
+            type="password" 
+            name="password"
+            required
+          />
           <span className="sign__error">{errors.password || ''}</span>
         </div>
       </fieldset>

@@ -1,28 +1,34 @@
 import Sign from '../Sign/Sign'
 import { useState } from 'react'
 import { useValidation } from '../../hooks/useValidation'
-import { useNavigate } from 'react-router-dom'
 
-function Login() {
-  const navigate = useNavigate()
-  const [isSignError, setIsSignError] = useState(false)
+
+function Login(props) {
+  
+  
   const { values, onChange, errors, isFormValid } = useValidation()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const onSubmit = (e) => {
-    e.preventDefault()
-    if (values.email === 'admun@admin' && values.password === 'admun@admin') {
-        localStorage.setItem('loggedIn', 'yes')
-        navigate('/')
-    } else {
-        setIsSignError(true)
-    }
+  function handleEmail(evt) {
+    setEmail(evt.target.value);
   }
+
+  function handlePassword(evt) {
+    setPassword(evt.target.value);
+  }
+
+  function onSubmit(evt) {
+    evt.preventDefault();
+    props.onLogin(email, password);
+  }
+
 
   return (
     <Sign 
         title="Рады видеть!"
         onSubmit={onSubmit}
-        isSignError={isSignError}
+        
         isValid={isFormValid}
         buttonText="Войти"
         questionText="Ещё не зарегистрированы?"
@@ -31,13 +37,23 @@ function Login() {
     >
         <fieldset className="sign__inputs">
             <div className="sign__input-container">E-mail
-                <input className={`sign__input ${errors.email && 'ssign__input_error'}`} onChange={onChange} value={values.email || ''}
-                type="email" name="email" minLength="2" maxLength="30" required/>
+                <input className={`sign__input ${errors.email && 'ssign__input_error'}`} 
+                    onChange={handleEmail}
+                    value={email}
+                    type="email" 
+                    name="email"
+                    required
+                />
                 <span className="sign__error">{errors.email || ''}</span>
             </div>
             <div className="sign__input-container">Пароль
-                <input className={`sign__input ${errors.password && 'sign__input_error'}`} onChange={onChange} value={values.password || ''}
-                type="password" name="password" minLength="6" maxLength="30" required/>
+                <input className={`sign__input ${errors.password && 'sign__input_error'}`} 
+                    onChange={handlePassword}
+                    value={password}
+                    type="password" 
+                    name="password" 
+                    required
+                />
                 <span className="sign__error">{errors.password || ''}</span>
             </div>
         </fieldset>

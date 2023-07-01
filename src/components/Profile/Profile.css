@@ -81,9 +81,7 @@
 .profile__button-edit {
     color: #fff;
 }
-.profile__button-edit-disabled {
-    color: red;
-}
+
 
 .profile__button-logout {
     margin-top: 16px;
