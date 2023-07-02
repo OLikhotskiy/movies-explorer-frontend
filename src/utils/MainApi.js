@@ -119,7 +119,7 @@ class MainApi {
 }
 
 const mainApi = new MainApi({
-  baseUrl: "http://api.project-movies-exp.nomoredomains.rocks",
+  baseUrl: "https://api.project-movies-exp.nomoredomains.rocks",
   headers: {
     'Accept': 'application/json',
     "Content-Type": "application/json",

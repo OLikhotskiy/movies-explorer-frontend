@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './Profile.css'
 import Header from '../Header/Header';
 import { useValidation } from '../../hooks/useValidation'
@@ -9,11 +9,8 @@ function Profile({onSignOut, onUpdateUser}) {
     const currentUser = React.useContext(CurrentUserContext);
     const { values, errors, isFormValid, onChange, resetValidation } = useValidation()
 
-    React.useEffect(() => {
-        resetValidation(true, currentUser);
-      }, [currentUser, resetValidation]);
-
-
+    React.useEffect(() => {resetValidation(true, currentUser.currentUser);
+    }, [currentUser.currentUser, resetValidation]);
 
 
     const onExitClick = (e) => {
@@ -31,7 +28,7 @@ function Profile({onSignOut, onUpdateUser}) {
         <Header />
         <main className='profile'>
             <div className='profile__container'>
-                <h2 className='profile__title'>{`Привет, ${currentUser.name}!`}</h2>
+                <h2 className='profile__title'>{`Привет, ${currentUser.currentUser.name}!`}</h2>
                 <form className='profile__form'>
                     <fieldset className='profile__fieldset'>
                         <label className='profile__fields'>
@@ -43,8 +40,8 @@ function Profile({onSignOut, onUpdateUser}) {
                                 placeholder='Имя'
                                 onChange={onChange}
                                 value={values.name || ''}
-                                minLength="6"
-                                maxLength="40"
+                                minLength="2"
+                                maxLength="30"
                                 required
                             />
                             

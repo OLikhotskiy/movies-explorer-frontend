@@ -12,8 +12,8 @@ import Footer from '../Footer/Footer'
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute'
 import { useEffect, useState } from "react";
-import mainApi from '../../utils/MainApi'
-import { getBeatfilmMovies } from '../../utils/MoviesApi'
+import mainApi from '../../utils/mainApi'
+import { getBeatfilmMovies } from '../../utils/moviesApi'
 
 
 function App() {
@@ -22,7 +22,7 @@ function App() {
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
   const [allMovies, setAllMovies] = useState(JSON.parse(localStorage.getItem('allMovies')) || [])
-  const [isLogged, setIsLogged] = useState(localStorage.getItem('loggedIn'))
+  const [isLogged, setIsLogged] = useState(false)
 
   useEffect(() => {
     tokenCheck()
@@ -30,6 +30,7 @@ function App() {
       Promise.all([mainApi.getUserInfo()])
         .then(([userData]) => {
           setCurrentUser(userData);
+          setIsLogged(true);
         })
         .catch((error) => console.log(error));
         }
@@ -76,9 +77,10 @@ function App() {
   }
   
   function onSignOut() {
+    setCurrentUser({});
+    setIsLogged(false);
     localStorage.clear();
-    navigate("/");
-    setEmail("");
+    navigate("/", { replace: true });
   }
 
   function handleUpdateUser (newData) {
@@ -93,7 +95,7 @@ function App() {
 
  
   return (
-    <CurrentUserContext.Provider value={currentUser}>
+    <CurrentUserContext.Provider value={{currentUser, isLogged}}>
     <div className="body">
       <div className="page">
         <Routes>
@@ -115,16 +117,27 @@ function App() {
           />
           <Route path="/profile" 
             element={
-              <Profile 
-                isLoggedIn={isLogged}
+              <ProtectedRoute
+                component={Profile} 
+                isLogged={isLogged}
                 onSignOut={onSignOut}
                 onUpdateUser={handleUpdateUser}
               />
             } 
           />
           <Route path="*" element={<NotFound />} />
-          <Route path="/movies" element={<Movies />} />
-          <Route path="/saved-movies" element={<SavedMovies />} /> 
+          <Route path="/movies" element={
+          <ProtectedRoute
+            component={Movies}
+            isLogged={isLogged}
+            />} 
+          />
+          <Route path="/saved-movies" element={
+            <ProtectedRoute
+            component={SavedMovies}
+            isLogged={isLogged} 
+            />} 
+          /> 
         </Routes>
       </div>
     </div>
