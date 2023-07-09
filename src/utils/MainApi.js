@@ -84,29 +84,29 @@ class MainApi {
     });
   }
 
-  addMovie(movieData) {
+  addMovie(movie) {
     return this._request(`${this._baseUrl}/movies/`, {
       method: "POST",
       headers: this._headers,
       credentials: 'include',
       body: JSON.stringify({
-        country: movieData.country,
-        director: movieData.director,
-        duration: movieData.duration,
-        year: movieData.year,
-        description: movieData.description,
-        image: `${this._filmsBaseUrl}${movieData.image.url}`,
-        trailerLink: movieData.trailerLink,
-        thumbnail: `${this._filmsBaseUrl}${movieData.image.url}`,
-        movieId: movieData.movieId,
-        nameRU: movieData.nameRU,
-        nameEN: movieData.nameEN,
+        country: movie.country,
+        director: movie.director,
+        duration: movie.duration,
+        year: movie.year,
+        description: movie.description,
+        image: `${this._beatfilmBaseUrl}${movie.image.url}`,
+        trailerLink: movie.trailerLink,
+        thumbnail: `${this._beatfilmBaseUrl}${movie.image.url}`,
+        movieId: movie.id,
+        nameRU: movie.nameRU,
+        nameEN: movie.nameEN,
       }),
     });
   }
 
-  deletemovie(movieData) {
-    return this._request(`${this._baseUrl}/cards/${movieData._id}`, {
+  deleteMovie(movieData) {
+    return this._request(`${this._baseUrl}/movies/${movieData._id}`, {
       method: "DELETE",
       headers: this._headers,
       credentials: 'include',

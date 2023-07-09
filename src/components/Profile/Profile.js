@@ -5,7 +5,7 @@ import { useValidation } from '../../hooks/useValidation'
 import { CurrentUserContext } from '../../contexts/CurrentUserContext'
 
 
-function Profile({onSignOut, onUpdateUser}) {
+function Profile({onSignOut, onProfileUpdate}) {
     const currentUser = React.useContext(CurrentUserContext);
     const { values, errors, isFormValid, onChange, resetValidation } = useValidation()
 
@@ -20,7 +20,7 @@ function Profile({onSignOut, onUpdateUser}) {
 
     function handleEditClick(evt) {
         evt.preventDefault();
-        onUpdateUser(values);
+        onProfileUpdate(values);
     }
 
     return (

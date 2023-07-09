@@ -8,7 +8,7 @@
     height: 203px;
     background-image: url('../../images/picture.jpg');
     background-position: center;
-    background-size:contain;
+    background-size:cover;
     background-repeat: no-repeat;    
 }
   
@@ -24,6 +24,10 @@
     font-weight: 500;
     font-size: 15px;
     line-height: 18px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
 }
   
 .movies-card__time {

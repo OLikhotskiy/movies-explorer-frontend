@@ -13,6 +13,6 @@ export function getBeatfilmMovies() {
     headers: { 'Content-Type': 'application/json' }
   })
   .then((res) => checkResponseData(res))
-  .then(data => data)
+  .then(moviesData => moviesData)
   .catch(err => console.log(err))
 }
