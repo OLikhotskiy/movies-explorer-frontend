@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useValidation } from '../../hooks/useValidation'
 
 
-function Login(props) {
+function Login({onLogin}) {
   
   
   const { values, onChange, errors, isFormValid } = useValidation()
@@ -20,7 +20,7 @@ function Login(props) {
 
   function onSubmit(evt) {
     evt.preventDefault();
-    props.onLogin(email, password);
+    onLogin(values);
   }
 
 
@@ -38,8 +38,8 @@ function Login(props) {
         <fieldset className="sign__inputs">
             <div className="sign__input-container">E-mail
                 <input className={`sign__input ${errors.email && 'ssign__input_error'}`} 
-                    onChange={handleEmail}
-                    value={email}
+                    onChange={onChange}
+                    value={values.email || ''}
                     type="email" 
                     name="email"
                     required
@@ -48,8 +48,8 @@ function Login(props) {
             </div>
             <div className="sign__input-container">Пароль
                 <input className={`sign__input ${errors.password && 'sign__input_error'}`} 
-                    onChange={handlePassword}
-                    value={password}
+                    onChange={onChange}
+                    value={values.password || ''}
                     type="password" 
                     name="password" 
                     required

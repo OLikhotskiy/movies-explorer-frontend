@@ -33,43 +33,29 @@ function MoviesCardList({ movies, isLoading, likeClick }) {
   }
 
   const handleMoreButton = () => {
-    if (location.pathname === '/movies' && movies.length >= 3 && moviesQuantity < movies.length) {
+     if (movies.length > 12 && moviesQuantity < movies.length) {
       return (
         <button 
-         type="button" aria-label="Ещё" className="cards__more buttons" 
-         onClick={handleMoreButtonClick}>
+          type="button" aria-label="Ещё" className="cards__more buttons" 
+          onClick={handleMoreButtonClick}>
           Ещё
         </button>
-      )
+      ) 
     }
   }
 
   const handleMoviesCard = () => {
-    if (location.pathname === '/saved-movies') {
-      return (
-        <>
-          {movies.map((movie) => (
-            <MoviesCard
-              movie={movie}
-              key={movie.id || movie._id}
-              likeClick={likeClick}
-            />
-          ))}  
-        </>
-      )
-    } else {
-      return (
-        <>
-          {movies.slice(0, moviesQuantity).map((movie) => (
-            <MoviesCard
-              movie={movie}
-              key={movie.id || movie._id}
-              likeClick={likeClick}
-            />
-          ))} 
-        </> 
-      )
-    }
+    return (
+      <>
+       {movies.slice(0, moviesQuantity).map((movie) => (
+        <MoviesCard
+          movie={movie}
+          key={movie.id || movie._id}
+          likeClick={likeClick}
+        />
+        ))} 
+      </> 
+    )
   }
 
   const handlerNotFound = () => {
@@ -82,7 +68,10 @@ function MoviesCardList({ movies, isLoading, likeClick }) {
     } else {
       return (
         <div className="card__notFound">
-          <p>К сожалению по Вашему запросу ничего не найдено. Измените запрос и повторите поиск.</p>
+          <p>{localStorage.getItem('userRequest') 
+            ? 'К сожалению по Вашему запросу ничего не найдено. Измените запрос и повторите поиск.' 
+            : 'Введите запрос и нажмите кнопку поиска.'}
+          </p>
         </div>
       )
     }

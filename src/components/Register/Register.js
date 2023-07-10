@@ -1,31 +1,18 @@
+import React from 'react';
 import Sign from '../Sign/Sign'
 import { useValidation } from '../../hooks/useValidation'
-import { useState } from "react";
 
-function Register(props) {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+function Register({onRegister}) {
   
-  function handleName(event) {
-    setName(event.target.value);
-    
-  }
+  const { values, errors, isFormValid, onChange, resetValidation } = useValidation()
 
-  function handleEmail(event) {
-    setEmail(event.target.value);
-  }
-
-  function handlePassword(evt) {
-    setPassword(evt.target.value);
-  }
-  
-  
-  const { values, onChange, errors, isFormValid } = useValidation()//починить валидацию
+  React.useEffect(() => {
+    resetValidation(true);
+  }, [resetValidation]);
 
   function onSubmit(evt) {
     evt.preventDefault()
-    props.onRegister(name, email, password)
+    onRegister(values)
   }
 
   return (
@@ -41,20 +28,20 @@ function Register(props) {
       <fieldset className="sign__inputs">
         <div className="sign__input-container">Имя
           <input className={`sign__input ${errors.name && 'sign__input_error'}`} 
-            onChange={handleName} 
-            value={name}
+            onChange={onChange} 
+            value={values.name || ''}
             type="text" 
             name="name" 
             minLength="2" 
             maxLength="30" 
             required
           />
-          <span className="sign__error">{errors.name || ''}</span>
+          <span className="sign__error">{errors.name}</span>
         </div>
         <div className="sign__input-container">E-mail
           <input className={`sign__input ${errors.email && 'sign__input_error'}`} 
-            onChange={handleEmail}
-            value={email}
+            onChange={onChange}
+            value={values.email || ''}
             type="email" 
             name="email" 
             required
@@ -63,8 +50,8 @@ function Register(props) {
         </div>
         <div className="sign__input-container">Пароль
           <input className={`sign__input ${errors.password && 'sign__input_error'}`} 
-            onChange={handlePassword}
-            value={password}
+            onChange={onChange}
+            value={values.password || ''}
             type="password" 
             name="password"
             required

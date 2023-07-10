@@ -9,8 +9,8 @@ function Profile({onSignOut, onProfileUpdate}) {
     const currentUser = React.useContext(CurrentUserContext);
     const { values, errors, isFormValid, onChange, resetValidation } = useValidation()
 
-    React.useEffect(() => {resetValidation(true, currentUser.currentUser);
-    }, [currentUser.currentUser, resetValidation]);
+    React.useEffect(() => {resetValidation(true, currentUser);
+    }, [currentUser, resetValidation]);
 
 
     const onExitClick = (e) => {
@@ -28,7 +28,7 @@ function Profile({onSignOut, onProfileUpdate}) {
         <Header />
         <main className='profile'>
             <div className='profile__container'>
-                <h2 className='profile__title'>{`Привет, ${currentUser.currentUser.name}!`}</h2>
+                <h2 className='profile__title'>{`Привет, ${currentUser.name}!`}</h2>
                 <form className='profile__form'>
                     <fieldset className='profile__fieldset'>
                         <label className='profile__fields'>

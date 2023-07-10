@@ -14,6 +14,7 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute'
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import mainApi from '../../utils/mainApi'
 import { getBeatfilmMovies } from '../../utils/moviesApi'
+import Cookie from "js-cookie";
 
 
 function App() {
@@ -32,48 +33,44 @@ function App() {
   const [shortSavedMoviesSwitchOn, setShortSavedMoviesSwitchOn] = useState(false)
   
   useEffect(() => {
-    tokenCheck()
     if (isLogged) {
-      Promise.all([mainApi.getUserInfo(), mainApi.getMovies(), getBeatfilmMovies()])
-        .then(([userData, saveMovies, beatfilmMovies]) => {
+      Promise.all([mainApi.getUserInfo()])
+        .then(([userData]) => {
           setCurrentUser(userData);
           setIsLogged(true);
-          setAllMovies(beatfilmMovies)
-          updateSavedMoviesList(saveMovies)
-          if (beatfilmMovies !== undefined) {
-          localStorage.setItem('beatfilmMovies', JSON.stringify(beatfilmMovies))}
         })
         .catch((error) => console.log(error));
-        }
-  }, [isLogged]);  
-
-  const tokenCheck = () => {
-    const token = localStorage.getItem("jwt");
-    if (token && isLogged) {
-      mainApi.getToken(token).then((res) => {
-          if (res) {
-            setIsLogged(true);
-            navigate("/movies", { replace: true });
+      Promise.all([getBeatfilmMovies()])
+        .then(([beatfilmMovies ]) => {
+          setAllMovies(beatfilmMovies)
+          if (beatfilmMovies !== undefined) {
+            localStorage.setItem('beatfilmMovies', JSON.stringify(beatfilmMovies))
           }
         })
-        .catch((err) => console.error(err))
+        .catch((error) => console.log(error));  
+      Promise.all([mainApi.getMovies()])
+        .then(([saveMovies]) => {
+          updateSavedMoviesList(saveMovies)
+        })
+        .catch((error) => console.log(error));
     }
-  };
+  }, [isLogged]);  
 
-  function onRegister(name, email, password) {
+  
+  function onRegister(values) {
     mainApi
-      .registration(name, email, password)
+      .registration(values)
       .then(() => {
-        onLogin(email, password);
+        onLogin(values);
       })
       .catch((err) => {
         console.log(err);        
       })
   }
 
-  function onLogin(email, password) {
+  function onLogin(values) {
     mainApi
-      .login(email, password)
+      .login(values)
       .then((res) => {
         localStorage.setItem('logged', 'true');
         setIsLogged(true);
@@ -82,12 +79,18 @@ function App() {
       .catch((err) => {
         console.log(err);
       });
+      
+
   }
   
   function onSignOut() {
     mainApi
       .logout()
       .then((res) => {
+        setFilteredMovies([]);
+        setFilteredShortMovies([]);
+        setShortMoviesSwitchOn(false);
+        Cookie.remove('jwt');
         localStorage.clear();
         setCurrentUser({});
         setIsLogged(false);
@@ -123,7 +126,7 @@ function App() {
       filterShortMoviesInSearch()
       localStorage.setItem('switchOn', true)
     } else {
-      handleSearch(localStorage.getItem('userReqest'))
+      handleSearch(localStorage.getItem('userRequest'))
       .then(() => localStorage.removeItem('switchOn'))
     }
   }, [shortMoviesSwitchOn])
@@ -196,6 +199,7 @@ function App() {
   }
 
   async function handleSearch(request) {
+    if (!request) {return} else {
     const reqToLowerCase = request.toLowerCase()
     try {
       await setIsLoading(true)
@@ -204,7 +208,7 @@ function App() {
         if (location.pathname === '/saved-movies') {
           handleFilterMovies(reqToLowerCase)
         } else {
-          localStorage.setItem('userReqest', request)
+          localStorage.setItem('userRequest', request)
           if (shortMoviesSwitchOn) {
             filterShortMovies(reqToLowerCase)
           } else {
@@ -219,6 +223,7 @@ function App() {
     } finally {
       setIsLoading(false)
     }
+  }
   }
 
   function handleFilterMovies (request) {
@@ -253,7 +258,7 @@ function App() {
   }
   
   return (
-    <CurrentUserContext.Provider value={{currentUser, isLogged}}>
+    <CurrentUserContext.Provider value={currentUser}>
     <div className="body">
       <div className="page">
         <Routes>
@@ -296,7 +301,7 @@ function App() {
               isLoading={isLoading}
             />} 
           />
-          <Route path="/saved-movies" element={
+          <Route path="saved-movies" element={
             <ProtectedRoute
               component={SavedMovies}
               isLogged={isLogged}

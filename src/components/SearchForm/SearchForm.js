@@ -10,8 +10,8 @@ function SearchForm({checkedSwitch, setCheckedSwitch, startSearch}) {
   const [request, setRequest] = useState('')    
 
   useEffect(() => {
-    if (location.pathname === '/movies' && localStorage.getItem('userReqest')) {
-      setRequest(localStorage.getItem('userReqest'))
+    if (location.pathname === '/movies' && localStorage.getItem('userRequest')) {
+      setRequest(localStorage.getItem('userRequest'))
     } else if (location.pathname === '/saved-movies') {
       setRequest('')
     }
@@ -36,7 +36,7 @@ function SearchForm({checkedSwitch, setCheckedSwitch, startSearch}) {
         <div className="search__container">
           <input className="search__input" name="search" type="text" 
             placeholder="Фильм" onChange={handleChange}
-            value={request}
+            value={request || ''}
             required 
           />
           <button className="search__button buttons"></button>

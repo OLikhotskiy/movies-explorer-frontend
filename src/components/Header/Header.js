@@ -3,16 +3,15 @@ import Logo from '../Logo/Logo'
 import { Link } from 'react-router-dom'
 import Navigation from '../Navigation/Navigation';
 import Menu from '../Menu/Menu';
-import { useContext } from 'react';
-import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+
 
 function Header() {
-  const { isLogged } = useContext(CurrentUserContext);
+  
 
   return (
     <header className="header">
       <Logo />
-      {isLogged ? (
+      {localStorage.getItem('logged') ? (
         <>
         <Navigation />
         <Menu />

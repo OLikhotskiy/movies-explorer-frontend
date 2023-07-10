@@ -16,21 +16,27 @@ class MainApi {
     return fetch(url, options).then(this._getResponseData);
   }
   
-  registration(name, email, password) {
+  registration(userData) {
     return this._request(`${this._baseUrl}/signup`, {
       method: "POST",
       headers: this._headers,
       credentials: 'include',
-      body: JSON.stringify({ name, email, password }),
+      body: JSON.stringify({ 
+        name: userData.name,
+        email: userData.email,
+        password: userData.password }),
     });
   }
   
-  login(email, password) {
+  login(userData) {
     return this._request(`${this._baseUrl}/signin`, {
       method: "POST",
       headers: this._headers,
       credentials: 'include',
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({
+        email: userData.email,
+        password: userData.password
+      })
     })
     .then((res) => {
       if (res.token) {
@@ -39,16 +45,16 @@ class MainApi {
     })
   }
 
-  getToken(token) {
-    return this._request(`${this._baseUrl}/users/me`, {
-      method: "GET",
-      headers: {
-        'Content-Type': "application/json",
-        'Authorization': `Bearer ${token}`,
-      },
-      credentials: 'include',
-    })
-  }
+  // getToken(token) {
+  //   return this._request(`${this._baseUrl}/users/me`, {
+  //     method: "GET",
+  //     headers: {
+  //       'Content-Type': "application/json",
+  //       'Authorization': `Bearer ${token}`,
+  //     },
+  //     credentials: 'include',
+  //   })
+  // }
 
   logout() {
     return this._request(`${this._baseUrl}/signout`, {
