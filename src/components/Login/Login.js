@@ -1,23 +1,10 @@
 import Sign from '../Sign/Sign'
-import { useState } from 'react'
 import { useValidation } from '../../hooks/useValidation'
 
 
 function Login({onLogin}) {
-  
-  
   const { values, onChange, errors, isFormValid } = useValidation()
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  function handleEmail(evt) {
-    setEmail(evt.target.value);
-  }
-
-  function handlePassword(evt) {
-    setPassword(evt.target.value);
-  }
-
+  
   function onSubmit(evt) {
     evt.preventDefault();
     onLogin(values);
@@ -28,7 +15,6 @@ function Login({onLogin}) {
     <Sign 
         title="Рады видеть!"
         onSubmit={onSubmit}
-        
         isValid={isFormValid}
         buttonText="Войти"
         questionText="Ещё не зарегистрированы?"

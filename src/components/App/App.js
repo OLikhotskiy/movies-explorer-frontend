@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Route, Routes, useNavigate, useLocation } from 'react-router-dom'
 import './App.css'
 import Main from '../Main/Main'
@@ -15,22 +15,28 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import mainApi from '../../utils/mainApi'
 import { getBeatfilmMovies } from '../../utils/moviesApi'
 import Cookie from "js-cookie";
+import InfoTooltip from "../InfoTooltip/InfoTooltip";
+import wrong from "../../images/wrong.svg"
+import ok from "../../images/ok.svg";
 
 
 function App() {
   const navigate = useNavigate();
-  const location = useLocation()
-  const [isLoading, setIsLoading] = useState(false)
+  const location = useLocation();
+  const [isLoading, setIsLoading] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
+  const [infoTooltip, setInfoTooltip] = useState(false);
+  const [infoTooltipImage, setinfoTooltipImage] = useState("");
+  const [infoTooltipTitle, setInfoTooltipTitle] = useState("");
   const [isLogged, setIsLogged] = useState(localStorage.getItem('logged'));
-  const [allMovies, setAllMovies] = useState(JSON.parse(localStorage.getItem('beatfilmMovies')) || [])
-  const [filteredMovies, setFilteredMovies] = useState(JSON.parse(localStorage.getItem('filteredMovies')) || [])
-  const [filteredShortMovies, setFilteredShortMovies] = useState(JSON.parse(localStorage.getItem('filteredShortMovies')) || [])
-  const [shortMoviesSwitchOn, setShortMoviesSwitchOn] = useState(localStorage.getItem('switchOn') ?? false)
-  const [savedMovies, setSavedMovies] = useState([])
-  const [savedMoviesList, setSavedMoviesList] = useState([])
-  const [filteredSavedMovies, setFilteredSavedMovies] = useState([{}])
-  const [shortSavedMoviesSwitchOn, setShortSavedMoviesSwitchOn] = useState(false)
+  const [allMovies, setAllMovies] = useState(JSON.parse(localStorage.getItem('beatfilmMovies')) || []);
+  const [filteredMovies, setFilteredMovies] = useState(JSON.parse(localStorage.getItem('filteredMovies')) || []);
+  const [filteredShortMovies, setFilteredShortMovies] = useState(JSON.parse(localStorage.getItem('filteredShortMovies')) || []);
+  const [shortMoviesSwitchOn, setShortMoviesSwitchOn] = useState(localStorage.getItem('switchOn') ?? false);
+  const [savedMovies, setSavedMovies] = useState([]);
+  const [savedMoviesList, setSavedMoviesList] = useState([]);
+  const [filteredSavedMovies, setFilteredSavedMovies] = useState([{}]);
+  const [shortSavedMoviesSwitchOn, setShortSavedMoviesSwitchOn] = useState(false);
   
   useEffect(() => {
     if (isLogged) {
@@ -64,7 +70,10 @@ function App() {
         onLogin(values);
       })
       .catch((err) => {
-        console.log(err);        
+        console.log(err);
+        addInfoTooltip();
+        setinfoTooltipImage(wrong);
+        setInfoTooltipTitle("Что-то пошло не так! Попробуйте еще раз.");        
       })
   }
 
@@ -74,13 +83,18 @@ function App() {
       .then((res) => {
         localStorage.setItem('logged', 'true');
         setIsLogged(true);
+        addInfoTooltip();
+        setinfoTooltipImage(ok);
+        setInfoTooltipTitle("Вы успешно вошли!");
         navigate("/movies", { replace: true });
+        setTimeout(() => closeInfoTooltip(), 2000)
       })
       .catch((err) => {
         console.log(err);
+        addInfoTooltip();
+        setinfoTooltipImage(wrong);
+        setInfoTooltipTitle("Что-то пошло не так! Попробуйте еще раз.");
       });
-      
-
   }
   
   function onSignOut() {
@@ -94,10 +108,17 @@ function App() {
         localStorage.clear();
         setCurrentUser({});
         setIsLogged(false);
+        addInfoTooltip();
+        setinfoTooltipImage(ok);
+        setInfoTooltipTitle("Вы вышли! Возвращайтесь!");
+        setTimeout(() => closeInfoTooltip(), 2000)
         navigate("/", { replace: true });
       })
       .catch((err) => {
         console.log(err);
+        addInfoTooltip();
+        setinfoTooltipImage(wrong);
+        setInfoTooltipTitle("Что-то пошло не так! Попробуйте еще раз.");
       });
   }
 
@@ -106,8 +127,17 @@ function App() {
       .setUserInfo(newData)
       .then((newData) => {
         setCurrentUser(newData);
+        addInfoTooltip();
+        setinfoTooltipImage(ok);
+        setInfoTooltipTitle("Информация о пользователе успешно обновлена!");
+        setTimeout(() => closeInfoTooltip(), 2000)
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        addInfoTooltip();
+        setinfoTooltipImage(wrong);
+        setInfoTooltipTitle("Что-то пошло не так! Попробуйте еще раз.");
+      });
   };
     
   useEffect(() => {
@@ -160,10 +190,14 @@ function App() {
   function deleteLike (movie) {
     mainApi.deleteMovie(movie)
     .then(() => {
-      const filtredSavedMoviesList = savedMoviesList.filter(likedMovies => likedMovies._id !== movie._id)
-      const newFilteredSavedMoviesList = filteredSavedMovies.filter(likedMovies => likedMovies._id !== movie._id)
-      updateSavedMoviesList(filtredSavedMoviesList)
-      updateFilteredSavedMoviesList(newFilteredSavedMoviesList)
+      const filtredSavedMoviesList = savedMoviesList.filter(likedMovies => likedMovies._id !== movie._id);
+      const newFilteredSavedMoviesList = filteredSavedMovies.filter(likedMovies => likedMovies._id !== movie._id);
+      updateSavedMoviesList(filtredSavedMoviesList);
+      updateFilteredSavedMoviesList(newFilteredSavedMoviesList);
+      addInfoTooltip();
+      setinfoTooltipImage(ok);
+      setInfoTooltipTitle("Фильм удален из избранного!");
+      setTimeout(() => closeInfoTooltip(), 2000)
     })
     .catch((err) => console.log(err))
   }
@@ -216,7 +250,9 @@ function App() {
           }
         }
       } else {
-        //Tooltip
+        addInfoTooltip();
+        setinfoTooltipImage(wrong);
+        setInfoTooltipTitle("Ничего не найдено. Измените запрос!");
       }
     } catch (err) {
       console.log(err)
@@ -256,6 +292,14 @@ function App() {
     localStorage.setItem('filteredShortMovies', JSON.stringify(filteredShortMovies))
     setFilteredShortMovies(filteredShortMovies)
   }
+  
+  function addInfoTooltip() {
+    setInfoTooltip(true);
+  }
+
+  function closeInfoTooltip() {
+    setInfoTooltip(false);
+  };
   
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -316,6 +360,12 @@ function App() {
           /> 
         </Routes>
       </div>
+      <InfoTooltip
+          image={infoTooltipImage}
+          title={infoTooltipTitle}
+          isOpen={infoTooltip}
+          onClose={closeInfoTooltip}
+        />
     </div>
     </CurrentUserContext.Provider>
   )
