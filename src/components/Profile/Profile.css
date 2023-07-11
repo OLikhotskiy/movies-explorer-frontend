@@ -104,6 +104,17 @@
     color: #ee3465;
 }
 
+.profile__button-edit_disabled {
+    background-color: transparent;
+    
+    color: #8b8b8b;
+}
+
+.profile__button-edit_disabled:hover {
+    transition: none;
+    opacity: unset;
+    cursor: unset;
+}
 
 
 @media screen and (max-width: 768px) {

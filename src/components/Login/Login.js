@@ -1,13 +1,17 @@
 import Sign from '../Sign/Sign'
 import { useValidation } from '../../hooks/useValidation'
+import { useState } from 'react'
 
 
 function Login({onLogin}) {
   const { values, onChange, errors, isFormValid } = useValidation()
-  
+  const [disableInput, setDisableInput] = useState(false)
+
   function onSubmit(evt) {
     evt.preventDefault();
+    setDisableInput(true);
     onLogin(values);
+    setDisableInput(false)
   }
 
 
@@ -28,6 +32,7 @@ function Login({onLogin}) {
                     value={values.email || ''}
                     type="email" 
                     name="email"
+                    disabled={disableInput}
                     required
                 />
                 <span className="sign__error">{errors.email || ''}</span>
@@ -37,7 +42,8 @@ function Login({onLogin}) {
                     onChange={onChange}
                     value={values.password || ''}
                     type="password" 
-                    name="password" 
+                    name="password"
+                    disabled={disableInput}
                     required
                 />
                 <span className="sign__error">{errors.password || ''}</span>

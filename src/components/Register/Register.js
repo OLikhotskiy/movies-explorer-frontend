@@ -1,18 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Sign from '../Sign/Sign'
 import { useValidation } from '../../hooks/useValidation'
 
 function Register({onRegister}) {
   
   const { values, errors, isFormValid, onChange, resetValidation } = useValidation()
+  const [disableInput, setDisableInput] = useState(false)
 
   React.useEffect(() => {
     resetValidation(true);
   }, [resetValidation]);
 
   function onSubmit(evt) {
-    evt.preventDefault()
-    onRegister(values)
+    evt.preventDefault();
+    setDisableInput(true);
+    onRegister(values);
+    setDisableInput(false);
   }
 
   return (
@@ -33,7 +36,8 @@ function Register({onRegister}) {
             type="text" 
             name="name" 
             minLength="2" 
-            maxLength="30" 
+            maxLength="30"
+            disabled={disableInput} 
             required
           />
           <span className="sign__error">{errors.name}</span>
@@ -43,7 +47,8 @@ function Register({onRegister}) {
             onChange={onChange}
             value={values.email || ''}
             type="email" 
-            name="email" 
+            name="email"
+            disabled={disableInput} 
             required
           />
           <span className="sign__error">{errors.email || ''}</span>
@@ -54,6 +59,7 @@ function Register({onRegister}) {
             value={values.password || ''}
             type="password" 
             name="password"
+            disabled={disableInput}
             required
           />
           <span className="sign__error">{errors.password || ''}</span>

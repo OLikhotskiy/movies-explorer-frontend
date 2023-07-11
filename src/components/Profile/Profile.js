@@ -8,11 +8,13 @@ import { CurrentUserContext } from '../../contexts/CurrentUserContext'
 function Profile({onSignOut, onProfileUpdate}) {
     const currentUser = React.useContext(CurrentUserContext);
     const { values, errors, isFormValid, onChange, resetValidation } = useValidation()
+    
 
     React.useEffect(() => {resetValidation(true, currentUser);
     }, [currentUser, resetValidation]);
 
-
+    const oldUserData = (!isFormValid || (values.name === currentUser.name && values.email === currentUser.email))
+    
     const onExitClick = (e) => {
         e.preventDefault()
         onSignOut()
@@ -20,7 +22,11 @@ function Profile({onSignOut, onProfileUpdate}) {
 
     function handleEditClick(evt) {
         evt.preventDefault();
-        onProfileUpdate(values);
+        if (isFormValid) {
+            
+            onProfileUpdate(values);
+            
+        }
     }
 
     return (
@@ -62,10 +68,10 @@ function Profile({onSignOut, onProfileUpdate}) {
                         <span className="profile__input-error">{errors.email || ''}</span>
                     </fieldset>
                     <div className='profile__buttons'>
-                        <button className="profile__button-edit buttons"  
-                            type='submit' onClick={handleEditClick}>Редактировать
+                        <button className={`profile__button-edit buttons ${oldUserData && 'profile__button-edit_disabled'} `}
+                            type='submit' onClick={handleEditClick} disabled={oldUserData}>Редактировать
                         </button>
-                        <button className="profile__button-logout buttons" onClick={onExitClick}>Выйти из аккаунта</button>
+                        <button className="profile__button-logout buttons" onClick={onExitClick} >Выйти из аккаунта</button>
                         
                     </div>
                 </form>
