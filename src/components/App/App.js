@@ -233,7 +233,13 @@ function App() {
   }
 
   async function handleSearch(request) {
-    if (!request) {return} else {
+    if (!request) {
+      addInfoTooltip();
+      setinfoTooltipImage(wrong);
+      setInfoTooltipTitle("Нужно ввести ключевое слово.");
+      setTimeout(() => closeInfoTooltip(), 2000);
+      return
+    } else {
     const reqToLowerCase = request.toLowerCase()
     try {
       await setIsLoading(true)
