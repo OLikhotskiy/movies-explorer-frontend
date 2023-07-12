@@ -1,31 +1,32 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { TABLET_RESOLUTION, MOBILE_RESOLUTION, MAX_QUANTITY, MIDDLE_QUANTITY, MIN_QUANTITY } from "../../utils/constants";
 import './MoviesCardList.css'
 import MoviesCard from "../MoviesCard/MoviesCard";
 import Preloader from '../Preloader/Preloader'
 
 function MoviesCardList({ movies, isLoading, likeClick }) {
 
-  const location = useLocation()
-  const [moviesQuantity, setMoviesQuantity] = useState(12)
+  
+  const [moviesQuantity, setMoviesQuantity] = useState(MAX_QUANTITY)
 
   useEffect(() => {
     const timer = () => {setTimeout(quantityMovies, 1000)}
-    window.addEventListener('resize', timer)
+    window.addEventListener('resize', timer);
+    return () => window.removeEventListener("resize", timer);
   })
 
   function quantityMovies() {
-    if (window.innerWidth <= 768 && window.innerWidth > 480) {
-      return setMoviesQuantity(8)
-    } else if (window.innerWidth <= 480) {
-      return setMoviesQuantity(5)
+    if (window.innerWidth <= TABLET_RESOLUTION && window.innerWidth > MOBILE_RESOLUTION) {
+      return setMoviesQuantity(MIDDLE_QUANTITY)
+    } else if (window.innerWidth <= MOBILE_RESOLUTION) {
+      return setMoviesQuantity(MIN_QUANTITY)
     } else {
-    setMoviesQuantity(12)
+    setMoviesQuantity(MAX_QUANTITY)
     }
   }
 
   function handleMoreButtonClick() {
-    if (window.innerWidth >768) {
+    if (window.innerWidth > TABLET_RESOLUTION) {
       return setMoviesQuantity(moviesQuantity + 3)
     } else {
       return setMoviesQuantity(moviesQuantity + 2)

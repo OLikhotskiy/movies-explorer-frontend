@@ -18,6 +18,7 @@ import Cookie from "js-cookie";
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
 import wrong from "../../images/wrong.svg"
 import ok from "../../images/ok.svg";
+import { SHORT_MOVIE_DURATION } from "../../utils/constants";
 
 
 function App() {
@@ -176,7 +177,7 @@ function App() {
 
   useEffect(() => {
     if (shortSavedMoviesSwitchOn) {
-      const shortMovies = savedMovies.filter((movie) => movie.duration < 40)
+      const shortMovies = savedMovies.filter((movie) => movie.duration < SHORT_MOVIE_DURATION)
       setSavedMovies(shortMovies)
     } else {
       setSavedMovies(savedMoviesList)
@@ -279,7 +280,7 @@ function App() {
     if (location.pathname === '/saved-movies') {
       const filteredSavedMovies = savedMoviesList.filter((movie) => movie.nameRU.toLowerCase().indexOf(request) >= 0)
       if (shortSavedMoviesSwitchOn) {
-        const filteredSavedShortMovies = filteredSavedMovies.filter((movie) => movie.duration < 40)
+        const filteredSavedShortMovies = filteredSavedMovies.filter((movie) => movie.duration < SHORT_MOVIE_DURATION)
         setSavedMovies(filteredSavedShortMovies)
       } else {
         setSavedMovies(filteredSavedMovies)
@@ -295,13 +296,13 @@ function App() {
   function filterShortMovies(request) {
     const filteredMovies = allMovies.filter((movie) =>
       movie.nameRU.toLowerCase().indexOf(request) >= 0)
-    const filteredShortMovies = filteredMovies.filter((movie) => movie.duration < 40)
+    const filteredShortMovies = filteredMovies.filter((movie) => movie.duration < SHORT_MOVIE_DURATION)
     localStorage.setItem('filteredShortMovies', JSON.stringify(filteredShortMovies))
     updateFilteredMoviesList(filteredShortMovies)
   }
 
   function filterShortMoviesInSearch() {
-    const filteredShortMovies = filteredMovies.filter((movie) => movie.duration < 40)
+    const filteredShortMovies = filteredMovies.filter((movie) => movie.duration < SHORT_MOVIE_DURATION)
     localStorage.setItem('filteredShortMovies', JSON.stringify(filteredShortMovies))
     setFilteredShortMovies(filteredShortMovies)
   }

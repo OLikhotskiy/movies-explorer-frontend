@@ -1,9 +1,12 @@
 import React from "react";
-import { Routes, Link, Route } from 'react-router-dom';
+import { Routes, Link, NavLink, Route } from 'react-router-dom';
 import './Navigation.css'
 
 function Navigation() {
-    
+    let activeStyle = {
+        textDecoration: "underline",
+    };
+
     return (
         <section className="navigation">
             <Routes>
@@ -15,10 +18,17 @@ function Navigation() {
                     <nav className="navigation__container">
                         <ul className="navigation__links">
                             <li className={`navigation__link buttons ${window.location.pathname === "/movies" ? 'navigation__active' : ' '}`}>
-                                <Link to="/movies">Фильмы</Link>
+                                <NavLink to="/movies" 
+                                    style={({ isActive }) =>isActive ? activeStyle : undefined}>
+                                    Фильмы
+                                </NavLink>
                             </li>
                             <li className={`navigation__link buttons ${window.location.pathname === "/saved-movies" ? 'navigation__active' : ' '}`}>
-                                <Link to="/saved-movies" >Сохраненные фильмы</Link>
+                                <NavLink to="/saved-movies" 
+                                    style={({ isActive }) =>isActive ? activeStyle : undefined}>
+                                    Сохраненные фильмы
+                                </NavLink>
+
                             </li> 
                         </ul>
                         <Link to="/profile" className="navigation__profile buttons">Аккаунт</Link> 
