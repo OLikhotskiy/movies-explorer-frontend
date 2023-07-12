@@ -76,6 +76,17 @@
     line-height: 18px;
 }
 
+.search-form__error {
+    display: block;
+    min-height: 12px;
+    position: relative;
+    padding-top: 10px;
+    padding-bottom: 61px;
+    font-size: 10px;
+    text-align: center;
+    color: #ee3465;
+}
+
 
 @media screen and (max-width: 768px) {
     .search {

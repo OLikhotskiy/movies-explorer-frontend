@@ -7,7 +7,8 @@ import './SearchForm.css'
 
 function SearchForm({checkedSwitch, setCheckedSwitch, startSearch}) {
   const location = useLocation();
-  const [request, setRequest] = useState('')    
+  const [request, setRequest] = useState('');
+  const [requestError, setRequestError] = useState("");    
 
   useEffect(() => {
     if (location.pathname === '/movies' && localStorage.getItem('userRequest')) {
@@ -15,11 +16,22 @@ function SearchForm({checkedSwitch, setCheckedSwitch, startSearch}) {
     } else if (location.pathname === '/saved-movies') {
       setRequest('')
     }
-   }, [location])
+   
+  }, [location])
+  
+  useEffect(() => {
+    setRequestError("");
+  }, [request]);
 
   function onSubmit(evt) {
     evt.preventDefault()
-    startSearch(request)
+    if (location.pathname === "/movies") {
+      request
+        ? startSearch(request)
+        : setRequestError("Нужно ввести ключевое слово");
+    } else {
+      startSearch(request)
+    }
   }
 
   function handleChange(evt) {
@@ -58,6 +70,7 @@ function SearchForm({checkedSwitch, setCheckedSwitch, startSearch}) {
            <p className="search__description">Короткометражки</p>
         </label>
       </form>
+      <span className="search-form__error">{requestError}</span>
     </section>
   );
 }
