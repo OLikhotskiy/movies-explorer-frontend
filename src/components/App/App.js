@@ -35,9 +35,9 @@ function App() {
   const [filteredShortMovies, setFilteredShortMovies] = useState(JSON.parse(localStorage.getItem('filteredShortMovies')) || []);
   const [shortMoviesSwitchOn, setShortMoviesSwitchOn] = useState(localStorage.getItem('switchOn') ?? false);
   
-  const [сохрФильмыНаРендер, setСохрФильмыНаРендер] = useState([]);
-  const [сохраненные_фильмы, setСохрененные_фильмы] = useState([]);
-  const [фильтрСохрФильмы, setФильтрСохрФильмы] = useState(JSON.parse(localStorage.getItem('filteredSavedMovies')) || []);
+  const [savedMoviesRender, setSavedMoviesRender] = useState([]);
+  const [savedMovies, setSavedMovies] = useState([]);
+  const [filtredSavedMovies, setFiltredSavedMovies] = useState(JSON.parse(localStorage.getItem('filteredSavedMovies')) || []);
   
   const [shortSavedMoviesSwitchOn, setShortSavedMoviesSwitchOn] = useState(localStorage.getItem('switchOn') ?? false);
   
@@ -199,14 +199,14 @@ function App() {
     
   useEffect(() => {
     if (location.pathname === '/saved-movies') {
-      setСохрФильмыНаРендер(сохраненные_фильмы)
+      setSavedMoviesRender(savedMovies)
     }
     if (isLogged) {
       shortMoviesSwitchOn
         ? updateFilteredMoviesList(filteredShortMovies)
         : updateFilteredMoviesList(filteredMovies)
     }
-  }, [location, сохраненные_фильмы])
+  }, [location, savedMovies])
 
   useEffect(() => {
     if (shortMoviesSwitchOn) {
@@ -230,10 +230,10 @@ function App() {
 
   useEffect(() => {
     if (shortSavedMoviesSwitchOn) {
-      const сохрененные_короткоетражки = сохрФильмыНаРендер.filter((movie) => movie.duration < SHORT_MOVIE_DURATION)
-      setСохрФильмыНаРендер(сохрененные_короткоетражки)
+      const savedShortMoies = savedMoviesRender.filter((movie) => movie.duration < SHORT_MOVIE_DURATION)
+      setSavedMoviesRender(savedShortMoies)
     } else {
-      setСохрФильмыНаРендер(сохраненные_фильмы)
+      setSavedMoviesRender(savedMovies)
     }
   }, [shortSavedMoviesSwitchOn])
 
@@ -248,7 +248,7 @@ function App() {
   function addLike(movie) {
     mainApi.addMovie(movie)
     .then((movie) => {
-      const newSavedMovies = [movie, ...сохраненные_фильмы]
+      const newSavedMovies = [movie, ...savedMovies]
       updateSavedMoviesList(newSavedMovies)
     })
     .catch((err) => {
@@ -264,12 +264,13 @@ function App() {
   async function deleteLike (movie) {
    mainApi.deleteMovie(movie)
     .then(() => {
-      const filtredSavedMoviesList = сохраненные_фильмы.filter(likedMovies => likedMovies._id !== movie._id);
-      const newFilteredSavedMoviesList = фильтрСохрФильмы.filter(likedMovies => likedMovies._id !== movie._id);
+      const filtredSavedMoviesList = savedMovies.filter(likedMovies => likedMovies._id !== movie._id);
+      const newFilteredSavedMoviesList = filtredSavedMovies.filter(likedMovies => likedMovies._id !== movie._id);
       localStorage.setItem('newFilteredSavedMoviesList', JSON.stringify(newFilteredSavedMoviesList))
       updateSavedMoviesList(filtredSavedMoviesList);
       updateFilteredSavedMoviesList(newFilteredSavedMoviesList);
-      setСохрФильмыНаРендер(JSON.parse(localStorage.getItem('newFilteredSavedMoviesList')))
+      setSavedMoviesRender(JSON.parse(localStorage.getItem('newFilteredSavedMoviesList')));
+      
       addInfoTooltip();
       setinfoTooltipImage(ok);
       setInfoTooltipTitle("Фильм удален из избранного!");
@@ -286,19 +287,19 @@ function App() {
   }
 
   function checkIsLikedMovie(movie) {
-    return сохраненные_фильмы.some((item) => item.movieId === movie.id)
+    return savedMovies.some((item) => item.movieId === movie.id)
   }
   
   function updateSavedMoviesList(movies) {
     const likedMovies = movies.map(movie => ({ ...movie, isLiked: true }))
-    setСохрененные_фильмы(likedMovies)
-    setСохрФильмыНаРендер(likedMovies)
+    setSavedMovies(likedMovies)
+    setSavedMoviesRender(likedMovies)
   }
 
   function updateFilteredMoviesList(movies) {
     const updatedFilteredMoviesProperties = movies.map(movie => ({
         ...movie,
-        _id: (сохраненные_фильмы.find(likedMovie => likedMovie.movieId === movie.id) || {})._id,
+        _id: (savedMovies.find(likedMovie => likedMovie.movieId === movie.id) || {})._id,
         isLiked: checkIsLikedMovie(movie)
       })
     )
@@ -312,7 +313,7 @@ function App() {
   }
 
   function updateFilteredSavedMoviesList(likedMovies) {
-    setФильтрСохрФильмы(likedMovies)
+    setFiltredSavedMovies(likedMovies)
   }
 
   async function handleSearch(request) {
@@ -353,14 +354,14 @@ function App() {
 
   function handleFilterMovies (request) {
     if (location.pathname === '/saved-movies') {
-      const фильтрСохрФильмы = сохраненные_фильмы.filter((movie) => movie.nameRU.toLowerCase().indexOf(request) >= 0)
+      const filtredSavedMovies = savedMovies.filter((movie) => movie.nameRU.toLowerCase().indexOf(request) >= 0)
       if (shortSavedMoviesSwitchOn) {
-        const filteredSavedShortMovies = фильтрСохрФильмы.filter((movie) => movie.duration < SHORT_MOVIE_DURATION)
+        const filteredSavedShortMovies = filtredSavedMovies.filter((movie) => movie.duration < SHORT_MOVIE_DURATION)
         localStorage.setItem('filteredShortMovies', JSON.stringify(filteredSavedShortMovies))
-        setСохрФильмыНаРендер(filteredSavedShortMovies)
+        setSavedMoviesRender(filteredSavedShortMovies)
       } else {
-        localStorage.setItem('filteredSavedMovies', JSON.stringify(фильтрСохрФильмы))
-        setСохрФильмыНаРендер(фильтрСохрФильмы)
+        localStorage.setItem('filteredSavedMovies', JSON.stringify(filtredSavedMovies))
+        setSavedMoviesRender(filtredSavedMovies)
       }
     } else {
       const filteredMovies = allMovies.filter((movie) => movie.nameRU.toLowerCase().indexOf(request) >= 0)
@@ -451,7 +452,7 @@ function App() {
             <ProtectedRoute
               component={SavedMovies}
               isLogged={isLogged}
-              movies={сохрФильмыНаРендер}
+              movies={savedMoviesRender}
               
               likeClick={onLikeClick}
               startSearch={handleSearch}
