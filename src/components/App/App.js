@@ -94,25 +94,20 @@ function App() {
       })
   }
 
-  function onLogin(values) {
-    mainApi
-      .login(values)
-      .then((res) => {
+  async function onLogin(values) { 
+    try { mainApi.login(values)
         localStorage.setItem('logged', 'true');
         setIsLogged(true);
-        navigate('/movies', { replace: true })
         addInfoTooltip();
         setinfoTooltipImage(ok);
         setInfoTooltipTitle("Вы успешно вошли!");
-        
         setTimeout(() => closeInfoTooltip(), 2000)
-      })
-      .catch((err) => {
+      } catch(err) {
         console.log(err);
         addInfoTooltip();
         setinfoTooltipImage(wrong);
         setInfoTooltipTitle("Что-то пошло не так! Попробуйте еще раз.");
-      });
+      } 
   }
   
   function onSignOut() {

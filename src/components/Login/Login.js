@@ -16,7 +16,7 @@ function Login({onLogin, isLogged}) {
   }
 
 
-  return isLogged ? (<Navigate to="/" replace /> ):(
+  return isLogged ? (<Navigate to="/movies" replace /> ):(
     <Sign 
         title="Рады видеть!"
         onSubmit={onSubmit}
