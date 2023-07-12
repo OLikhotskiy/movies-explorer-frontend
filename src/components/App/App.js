@@ -39,6 +39,7 @@ function App() {
   const [shortSavedMoviesSwitchOn, setShortSavedMoviesSwitchOn] = useState(false);
   
   useEffect(() => {
+    checkAuth()
     if (isLogged) {
       Promise.all([mainApi.getUserInfo()])
         .then(([userData]) => {
@@ -62,7 +63,23 @@ function App() {
     }
   }, [isLogged]);  
 
-  
+  function checkAuth() {
+    if (localStorage.getItem('logged')) {
+      mainApi.getUserInfo()
+      .then((res) => {
+        if (res) {
+          setIsLogged(true)
+        }
+      })
+      .catch((err) => {
+        localStorage.removeItem('logged')
+        console.log(err)
+      })
+    } else {
+      localStorage.clear()
+    }
+  } 
+
   function onRegister(values) {
     mainApi
       .registration(values)
@@ -83,10 +100,11 @@ function App() {
       .then((res) => {
         localStorage.setItem('logged', 'true');
         setIsLogged(true);
+        navigate('/movies', { replace: true })
         addInfoTooltip();
         setinfoTooltipImage(ok);
         setInfoTooltipTitle("Вы успешно вошли!");
-        navigate("/movies", { replace: true });
+        
         setTimeout(() => closeInfoTooltip(), 2000)
       })
       .catch((err) => {
@@ -233,13 +251,7 @@ function App() {
   }
 
   async function handleSearch(request) {
-    if (!request) {
-      addInfoTooltip();
-      setinfoTooltipImage(wrong);
-      setInfoTooltipTitle("Нужно ввести ключевое слово.");
-      setTimeout(() => closeInfoTooltip(), 2000);
-      return
-    } else {
+    if (!request) {return} else {
     const reqToLowerCase = request.toLowerCase()
     try {
       await setIsLoading(true)
@@ -323,10 +335,20 @@ function App() {
             }
           />
           <Route path="/signup"
-            element={<Register onRegister={onRegister} />}
+            element={
+              <Register
+                isLogged={isLogged}
+                onRegister={onRegister}                 
+              />
+            }
           />
           <Route path="/signin" 
-            element={<Login onLogin={onLogin} />} 
+            element={
+              <Login
+                isLogged={isLogged} 
+                onLogin={onLogin}               
+              />
+            } 
           />
           <Route path="/profile" 
             element={
@@ -339,18 +361,19 @@ function App() {
             } 
           />
           <Route path="*" element={<NotFound />} />
-          <Route path="/movies" element={
-            <ProtectedRoute
-              component={Movies}
-              isLogged={isLogged}
-              checkedSwitch={shortMoviesSwitchOn}
-              setCheckedSwitch={setShortMoviesSwitchOn}
-              startSearch={handleSearch}
-              movies={shortMoviesSwitchOn ? filteredShortMovies : filteredMovies}
-              likeClick={onLikeClick}
-              isLoading={isLoading}
-            />} 
-          />
+          <Route path="movies" 
+            element={
+              <ProtectedRoute
+                component={Movies}
+                isLogged={isLogged}
+                checkedSwitch={shortMoviesSwitchOn}
+                setCheckedSwitch={setShortMoviesSwitchOn}
+                startSearch={handleSearch}
+                movies={shortMoviesSwitchOn ? filteredShortMovies : filteredMovies}
+                likeClick={onLikeClick}
+                isLoading={isLoading}
+              />
+            } />
           <Route path="saved-movies" element={
             <ProtectedRoute
               component={SavedMovies}

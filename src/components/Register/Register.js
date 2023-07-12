@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import Sign from '../Sign/Sign'
 import { useValidation } from '../../hooks/useValidation'
+import { Navigate } from 'react-router-dom'
 
-function Register({onRegister}) {
+function Register({onRegister, isLogged}) {
   
   const { values, errors, isFormValid, onChange, resetValidation } = useValidation()
   const [disableInput, setDisableInput] = useState(false)
@@ -18,7 +19,7 @@ function Register({onRegister}) {
     setDisableInput(false);
   }
 
-  return (
+  return isLogged ? (<Navigate to="/" replace /> ):(
     <Sign 
         title="Добро пожаловать!"
         onSubmit={onSubmit}
