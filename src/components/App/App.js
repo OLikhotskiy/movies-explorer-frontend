@@ -49,7 +49,14 @@ function App() {
           setCurrentUser(userData);
           setIsLogged(true);
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          console.log(error)
+          if (error === "Ошибка: 401") {
+            localStorage.clear()
+            navigate("/", { replace: true })
+            setIsLogged(false)
+          } 
+        });
       Promise.all([getBeatfilmMovies()])
         .then(([beatfilmMovies ]) => {
           setAllMovies(beatfilmMovies)
@@ -57,12 +64,26 @@ function App() {
             localStorage.setItem('beatfilmMovies', JSON.stringify(beatfilmMovies))
           }
         })
-        .catch((error) => console.log(error));  
+        .catch((error) => {
+          console.log(error)
+          if (error === "Ошибка: 401") {
+            localStorage.clear()
+            navigate("/", { replace: true })
+            setIsLogged(false)
+          } 
+        });  
       Promise.all([mainApi.getMovies()])
         .then(([saveMovies]) => {
           updateSavedMoviesList(saveMovies)
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+            console.log(error)
+            if (error === "Ошибка: 401") {
+              localStorage.clear()
+              navigate("/", { replace: true })
+              setIsLogged(false)
+            } 
+          });
     }
   }, [isLogged]);  
 
@@ -74,10 +95,14 @@ function App() {
           setIsLogged(true)
         }
       })
-      .catch((err) => {
-        localStorage.removeItem('logged')
-        console.log(err)
-      })
+      .catch((error) => {
+        console.log(error)
+        if (error === "Ошибка: 401") {
+          localStorage.clear()
+          navigate("/", { replace: true })
+          setIsLogged(false)
+        } 
+      });
     } else {
       localStorage.clear()
     }
@@ -93,7 +118,12 @@ function App() {
         console.log(err);
         addInfoTooltip();
         setinfoTooltipImage(wrong);
-        setInfoTooltipTitle("Что-то пошло не так! Попробуйте еще раз.");        
+        setInfoTooltipTitle("Что-то пошло не так! Попробуйте еще раз.");
+        if (err === "Ошибка: 401") {
+          localStorage.clear()
+          navigate("/", { replace: true })
+          setIsLogged(false)
+        }        
       })
   }
 
@@ -110,6 +140,11 @@ function App() {
         addInfoTooltip();
         setinfoTooltipImage(wrong);
         setInfoTooltipTitle("Что-то пошло не так! Попробуйте еще раз.");
+        if (err === "Ошибка: 401") {
+          localStorage.clear()
+          navigate("/", { replace: true })
+          setIsLogged(false)
+        }
       } 
   }
   
@@ -135,6 +170,7 @@ function App() {
         addInfoTooltip();
         setinfoTooltipImage(wrong);
         setInfoTooltipTitle("Что-то пошло не так! Попробуйте еще раз.");
+        
       });
   }
 
@@ -153,6 +189,11 @@ function App() {
         addInfoTooltip();
         setinfoTooltipImage(wrong);
         setInfoTooltipTitle("Что-то пошло не так! Попробуйте еще раз.");
+        if (error === "Ошибка: 401") {
+          localStorage.clear()
+          navigate("/", { replace: true })
+          setIsLogged(false)
+        }
       });
   };
     
@@ -210,15 +251,22 @@ function App() {
       const newSavedMovies = [movie, ...сохраненные_фильмы]
       updateSavedMoviesList(newSavedMovies)
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {
+      console.log(err)
+      if (err === "Ошибка: 401") {
+        localStorage.clear()
+        navigate("/", { replace: true })
+        setIsLogged(false)
+      }
+    })
   }
 
-  function deleteLike (movie) {
-    mainApi.deleteMovie(movie)
+  async function deleteLike (movie) {
+   mainApi.deleteMovie(movie)
     .then(() => {
       const filtredSavedMoviesList = сохраненные_фильмы.filter(likedMovies => likedMovies._id !== movie._id);
       const newFilteredSavedMoviesList = фильтрСохрФильмы.filter(likedMovies => likedMovies._id !== movie._id);
-      localStorage.setItem('newFilteredSavedMoviesList', JSON.stringify(filtredSavedMoviesList))
+      localStorage.setItem('newFilteredSavedMoviesList', JSON.stringify(newFilteredSavedMoviesList))
       updateSavedMoviesList(filtredSavedMoviesList);
       updateFilteredSavedMoviesList(newFilteredSavedMoviesList);
       setСохрФильмыНаРендер(JSON.parse(localStorage.getItem('newFilteredSavedMoviesList')))
@@ -227,7 +275,14 @@ function App() {
       setInfoTooltipTitle("Фильм удален из избранного!");
       setTimeout(() => closeInfoTooltip(), 2000)
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {
+      console.log(err)
+      if (err === "Ошибка: 401") {
+        localStorage.clear()
+        navigate("/", { replace: true })
+        setIsLogged(false)
+      }
+    })
   }
 
   function checkIsLikedMovie(movie) {
@@ -285,6 +340,11 @@ function App() {
       }
     } catch (err) {
       console.log(err)
+      if (err === "Ошибка: 401") {
+        localStorage.clear()
+        navigate("/", { replace: true })
+        setIsLogged(false)
+      }
     } finally {
       setIsLoading(false)
     }
