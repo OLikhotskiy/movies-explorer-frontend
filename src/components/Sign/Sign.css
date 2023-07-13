@@ -129,7 +129,6 @@
 }
 
 .sign__error {
-    position: absolute;
     display: flex;
     align-items: center;
     height: 20px;
@@ -140,7 +139,6 @@
     line-height: 12px;
     color: #ee3465;
 }
-
  
  @media screen and (max-width: 854px) {
     .sign {

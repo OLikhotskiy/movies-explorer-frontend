@@ -27,6 +27,14 @@
     align-self: center;
 }
 
+.card__notFound {
+    text-align: center;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 18px;
+    min-height: 267px;
+}
+
 @media screen and (max-width: 768px) {
     .cards {
         margin-top: 80px;
@@ -37,6 +45,9 @@
         grid-template-columns: repeat(2, 1fr);
         column-gap: 30px;
         row-gap: 36px;
+    }
+    .card__notFound {
+        min-height: 254px;
     }
 }
 
@@ -51,6 +62,9 @@
     
     .cards__more {
         width: 240px;
-        
+    }
+    
+    .card__notFound {
+        min-height: 232px;
     }
 }

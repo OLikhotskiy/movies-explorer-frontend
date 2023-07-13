@@ -33,10 +33,10 @@ function Menu() {
 
     return (
         <section className="menu">
-            {isMenuOpen ? <div className="menu__overlay" onClick={close}></div> : "" }
+            {isMenuOpen ? <div className="menu__overlay"></div> : "" }
             {isMenuOpen ? <img className="menu__image buttons" src={close} alt="Закрыть" onClick={closeMenu}/> 
-                            : 
-                            <img className="menu__image buttons" src={menu} alt="Меню" onClick={ openMenu }/>
+                        : 
+                          <img className="menu__image buttons" src={menu} alt="Меню" onClick={openMenu}/>
             }
             <nav className={isMenuOpen ? ["menu__list", "menu__list_active"].join(' ') : ["menu__list"]}>
                 <ul className="menu__container">

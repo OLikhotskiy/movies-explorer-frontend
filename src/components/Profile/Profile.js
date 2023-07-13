@@ -1,31 +1,40 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import './Profile.css'
 import Header from '../Header/Header';
 import { useValidation } from '../../hooks/useValidation'
+import { CurrentUserContext } from '../../contexts/CurrentUserContext'
 
 
-function Profile() {
-const navigate = useNavigate()
-const userName = 'Виталий'
-const userEmail = 'pochta@yandex.ru'
-const { values, onChange, errors, isValid } = useValidation()
+function Profile({onSignOut, onProfileUpdate}) {
+    const currentUser = React.useContext(CurrentUserContext);
+    const { values, errors, isFormValid, onChange, resetValidation } = useValidation()
+    
 
-const [isDisabled, setIsDisabled] = useState(true)
+    React.useEffect(() => {resetValidation(true, currentUser);
+    }, [currentUser, resetValidation]);
 
-const handleEditClick = () => setIsDisabled(false)
+    const oldUserData = (!isFormValid || (values.name === currentUser.name && values.email === currentUser.email))
+    
+    const onExitClick = (e) => {
+        e.preventDefault()
+        onSignOut()
+    }
 
-const onExitClick = (e) => {
-    e.preventDefault()
-    localStorage.clear()
-    navigate('/signin')
-  }
+    function handleEditClick(evt) {
+        evt.preventDefault();
+        if (isFormValid) {
+            
+            onProfileUpdate(values);
+            
+        }
+    }
+
     return (
     <>
         <Header />
         <main className='profile'>
             <div className='profile__container'>
-                <h2 className='profile__title'>{`Привет, ${userName}!`}</h2>
+                <h2 className='profile__title'>{`Привет, ${currentUser.name}!`}</h2>
                 <form className='profile__form'>
                     <fieldset className='profile__fieldset'>
                         <label className='profile__fields'>
@@ -36,9 +45,9 @@ const onExitClick = (e) => {
                                 name='name'
                                 placeholder='Имя'
                                 onChange={onChange}
-                                value={values.name || userName}
-                                minLength="6"
-                                maxLength="40"
+                                value={values.name || ''}
+                                minLength="2"
+                                maxLength="30"
                                 required
                             />
                             
@@ -52,17 +61,17 @@ const onExitClick = (e) => {
                                 name='email'
                                 placeholder='E-mail'
                                 onChange={onChange}
-                                value={values.email || userEmail}
-                                minLength="2"
-                                maxLength="30"
+                                value={values.email || ''}
                                 required 
                             />
                         </label>
                         <span className="profile__input-error">{errors.email || ''}</span>
                     </fieldset>
                     <div className='profile__buttons'>
-                        <button className={`profile__button-edit buttons ${!isValid && 'profile__button-edit-disabled'}`} type='submit' onClick={handleEditClick}>Редактировать</button>
-                        <button className={`profile__button-logout buttons`} onClick={onExitClick}>Выйти из аккаунта</button>
+                        <button className={`profile__button-edit buttons ${oldUserData && 'profile__button-edit_disabled'} `}
+                            type='submit' onClick={handleEditClick} disabled={oldUserData}>Редактировать
+                        </button>
+                        <button className="profile__button-logout buttons" onClick={onExitClick} >Выйти из аккаунта</button>
                         
                     </div>
                 </form>

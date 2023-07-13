@@ -11,11 +11,11 @@ function Sign
                 <Logo />
                 <h3 className="sign__title">{title}</h3>
             
-            <form className="sign__form" onSubmit={onSubmit}>
+            <form className="sign__form" onSubmit={onSubmit} noValidate>
                 {children}
                 {isSignError &&
                 <span className="sign__inputError">Неверный логин или пароль</span>}
-                <button className={`sign__button buttons ${!isValid && 'sign__button_disabled'} `} type="submit">
+                <button className={`sign__button buttons ${!isValid && 'sign__button_disabled'} `} type="submit" disabled={!isValid}>
                     {buttonText}
                 </button>
                 <span className="sign__question">{questionText}
